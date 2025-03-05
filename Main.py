@@ -8,3 +8,4 @@ if __name__ == '__main__' :
     print('Laporan Gempa Terkini')
     result = ekstraksi_data()
     tampilkan_data(result)
+

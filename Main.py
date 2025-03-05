@@ -1,0 +1,6 @@
+"""
+Aplikasi Deteksi Gempa
+"""
+
+if __name__ == '__main__' :
+    print('Aplikasi Utama')

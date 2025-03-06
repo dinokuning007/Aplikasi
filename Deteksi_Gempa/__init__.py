@@ -6,7 +6,7 @@ def ekstraksi_data():
     Magnitudo: 3,3
     Kedalaman: 11 Km
     Long: 8,18
-    Lat: -116,37 BT
+    Lat: -116,38 BT
     :return:
     """
     hasil = dict()
@@ -16,7 +16,7 @@ def ekstraksi_data():
     hasil['Magnitudo'] = 3.3
     hasil['Kedalaman'] = 11
     hasil['LS'] = 8.18
-    hasil['BT'] = -116.37
+    hasil['BT'] = -116.38
 
     return hasil
 

@@ -2,10 +2,11 @@
 Aplikasi Deteksi Gempa
 Modularisasi dengan fuction
 """
-from Deteksi_Gempa import ekstraksi_data, tampilkan_data
+import Deteksi_Gempa
 
 if __name__ == '__main__' :
     print('Laporan Gempa Terkini')
-    result = ekstraksi_data()
-    tampilkan_data(result)
+    result = Deteksi_Gempa.ekstraksi_data()
+    Deteksi_Gempa.tampilkan_data(result)
+
 

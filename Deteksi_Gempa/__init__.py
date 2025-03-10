@@ -1,3 +1,7 @@
+import requests
+from bs4 import BeautifulSoup
+
+
 def ekstraksi_data():
     """
     Tanggal: 05 Mar 2025
@@ -9,6 +13,12 @@ def ekstraksi_data():
     Lat: -116,38 BT
     :return:
     """
+
+    content = requests.get('https://www.bmkg.go.id/')
+    print(content.status_code)
+    # soup = BeautifulSoup("conten")
+    # print(soup.prettify())
+
     hasil = dict()
     hasil['Tanggal'] = '05 Mar 2025'
     hasil['Waktu'] = '21:35:54 WIB'

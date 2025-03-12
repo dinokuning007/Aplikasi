@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
+
 def ekstraksi_data():
     """
     Tanggal: 05 Mar 2025
@@ -14,15 +15,28 @@ def ekstraksi_data():
     :return:
     """
 
-    content = requests.get('https://www.bmkg.go.id/')
-    print(content.status_code)
-    # soup = BeautifulSoup("conten")
-    # print(soup.prettify())
+    global Tanggal
+    try:
+        content = requests.get('https://www.bmkg.go.id/')
+    except Exception:
+        return None
+
+    if content.status_code == 200:
+        soup = BeautifulSoup(content.text, 'html.parser')
+
+        Result1 = soup.find('p', {'class': 'mt-2 text-sm leading-[22px] font-medium text-gray-primary'})
+        if Result1:
+            Tanggal = Result1.text.split(',')[0]
+            Waktu = Result1.text.split(',')[1]
+        Result2 = soup.find('p', {'class': 'mt-4 text-xl lg:text-2xl font-bold text-black-primary'})
+        if Result2:
+            Titik = Result2.text.split(',')[0]
+
 
     hasil = dict()
-    hasil['Tanggal'] = '05 Mar 2025'
-    hasil['Waktu'] = '21:35:54 WIB'
-    hasil['Titik'] = 'Berada di laut 30 km timur laut Lombok Utara'
+    hasil['Tanggal'] = Tanggal #'05 Mar 2025'
+    hasil['Waktu'] = Waktu #'21:35:54 WIB'
+    hasil['Titik'] = Titik #'Berada di laut 30 km timur laut Lombok Utara'
     hasil['Magnitudo'] = 3.3
     hasil['Kedalaman'] = 11
     hasil['LS'] = 8.18

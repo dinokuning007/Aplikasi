@@ -24,21 +24,27 @@ def ekstraksi_data():
     if content.status_code == 200:
         soup = BeautifulSoup(content.text, 'html.parser')
 
-        Result1 = soup.find('p', {'class': 'mt-2 text-sm leading-[22px] font-medium text-gray-primary'})
-        if Result1:
-            Tanggal = Result1.text.split(',')[0]
-            Waktu = Result1.text.split(',')[1]
-        Result2 = soup.find('p', {'class': 'mt-4 text-xl lg:text-2xl font-bold text-black-primary'})
-        if Result2:
-            Titik = Result2.text.split(',')[0]
+        Result = soup.find('p', {'class': 'mt-2 text-sm leading-[22px] font-medium text-gray-primary'})
+        if Result:
+            Tanggal = Result.text.split(',')[0]
+            Waktu = Result.text.split(',')[1]
 
+        Result = soup.find('p', {'class': 'mt-4 text-xl lg:text-2xl font-bold text-black-primary'})
+        Titik = Result.text.split(',')[0]
+
+        Result = soup.find('span', {'class': 'text-base lg:text-lg font-bold text-black-primary'})
+        Magnitudo = Result.text.split(',')
+
+        Result = soup.find('span', {'class': 'text-base lg:text-lg font-bold text-black-primary'})
+        Kedalaman = Result.text.split(',')
+        # Gimana cara Inspect Elemen yang benar?
 
     hasil = dict()
     hasil['Tanggal'] = Tanggal #'05 Mar 2025'
     hasil['Waktu'] = Waktu #'21:35:54 WIB'
     hasil['Titik'] = Titik #'Berada di laut 30 km timur laut Lombok Utara'
-    hasil['Magnitudo'] = 3.3
-    hasil['Kedalaman'] = 11
+    hasil['Magnitudo'] = Magnitudo #3.3
+    hasil['Kedalaman'] = Kedalaman #11
     hasil['LS'] = 8.18
     hasil['BT'] = -116.38
 

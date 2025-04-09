@@ -15,36 +15,52 @@ def ekstraksi_data():
     :return:
     """
 
-    global Tanggal
     try:
-        content = requests.get('https://www.bmkg.go.id/')
+        content = requests.get('https://stamet-yogya.bmkg.go.id/')
     except Exception:
         return None
 
     if content.status_code == 200:
         soup = BeautifulSoup(content.text, 'html.parser')
+        result = soup.find('div', {'class': 'list-gempa'})
 
-        Result = soup.find('p', {'class': 'mt-2 text-sm leading-[22px] font-medium text-gray-primary'})
-        if Result:
-            Tanggal = Result.text.split(',')[0]
-            Waktu = Result.text.split(',')[1]
+        Tanggal = Waktu = None
 
-        Result = soup.find('p', {'class': 'mt-4 text-xl lg:text-2xl font-bold text-black-primary'})
-        Titik = Result.text.split(',')[0]
+        if result:
+            text: str = result.get_text(separator='\n').strip()
+            lines = text.splitlines()
 
-        Result = soup.find('span', {'class': 'text-base lg:text-lg font-bold text-black-primary'})
-        Magnitudo = Result.text.split(',')
+            if len(lines) >= 2:
+                Tanggal = lines[0].strip()
+                Waktu = lines[1].strip()
 
-        Result = soup.find('span', {'class': 'text-base lg:text-lg font-bold text-black-primary'})
-        Kedalaman = Result.text.split(',')
-        # Gimana cara Inspect Elemen yang benar?
+        Magnitudes = soup.find_all('p')
+
+        Magnitude = None
+        for p in Magnitudes:
+            if 'Magnitude' in p.text:
+                Magnitude = p.text.strip().split(':')[-1].strip()
+
+        Pusats = soup.find_all('p')
+
+        Pusat = None
+        for p in Pusats:
+            if 'Pusat' in p.text:
+                 Pusat = p.text.strip().split(':')[-1].strip()
+
+        Kedalamans = soup.find_all('p')
+
+        Kedalaman = None
+        for p in Kedalamans:
+            if "Kedalaman" in p.text:
+                Kedalaman = p.text.strip().split(':')[-1].strip()
 
     hasil = dict()
-    hasil['Tanggal'] = Tanggal #'05 Mar 2025'
-    hasil['Waktu'] = Waktu #'21:35:54 WIB'
-    hasil['Titik'] = Titik #'Berada di laut 30 km timur laut Lombok Utara'
-    hasil['Magnitudo'] = Magnitudo #3.3
-    hasil['Kedalaman'] = Kedalaman #11
+    hasil['Tanggal'] = Tanggal or 'Tidak ada'
+    hasil['Waktu'] = Waktu or 'Tidak ada'
+    hasil['Titik'] = Pusat
+    hasil['Magnitudo'] = Magnitude
+    hasil['Kedalaman'] = Kedalaman
     hasil['LS'] = 8.18
     hasil['BT'] = -116.38
 
@@ -56,8 +72,8 @@ def tampilkan_data(result):
     print('Tanggal', result['Tanggal'])
     print(f"Waktu {result['Waktu']}")
     print('Titik', result['Titik'])
-    print(f"Magnitudo {result['Magnitudo']}")
-    print(f"Kedalaman {result['Kedalaman']} Km")
+    print(f"Magnitudo {result['Magnitudo']} SR")
+    print(f"Kedalaman {result['Kedalaman']}")
     print(f"Lintang Selatan {result['LS']}")
     print(f"Bujur Timur {result['BT']}")
 

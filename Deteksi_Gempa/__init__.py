@@ -55,14 +55,22 @@ def ekstraksi_data():
             if "Kedalaman" in p.text:
                 Kedalaman = p.text.strip().split(':')[-1].strip()
 
+        divs = soup.find_all('div')
+
+        LS = None
+        BT = None
+        for div in divs:
+            if 'LS' in div.text and 'BT' in div.text:
+                print (div.text)
+
     hasil = dict()
     hasil['Tanggal'] = Tanggal or 'Tidak ada'
     hasil['Waktu'] = Waktu or 'Tidak ada'
     hasil['Titik'] = Pusat
     hasil['Magnitudo'] = Magnitude
     hasil['Kedalaman'] = Kedalaman
-    hasil['LS'] = 8.18
-    hasil['BT'] = -116.38
+    hasil['LS'] = LS
+    hasil['BT'] = BT
 
     return hasil
 
